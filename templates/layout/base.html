@@ -35,6 +35,11 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0" action="{{ url_for('index')}}" method="post" role="form">
+      <select name="filtre" class="form-control form-control-md" style="margin-right: 0.5em">
+        <option value="Tag">Tag</option>
+        <option value="Nom">Nom</option>
+        <option value="Categorie">Catégorie</option>
+      </select>
       <input class="form-control mr-sm-2" type="search" name="recherche" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>

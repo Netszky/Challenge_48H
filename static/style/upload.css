@@ -1,14 +1,15 @@
 
 #file {
     border: black 1px solid;
-    width: 30%;
 }
 .form-check {
     text-align: center!important;
 }
 .form_box {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-around!important;
+    margin-left: 20%;
+    margin-right: 20%;
 }
 .title {
     display: flex;
@@ -30,4 +31,11 @@
 .container_input {
     display: flex!important;
     justify-content: center!important;
+}
+.separate{
+    background-color: black;
+    height: 2px;
+    margin-top: 3%;
+    margin-left: 45%;
+    margin-right: 45%;
 }

@@ -15,15 +15,26 @@ mongo = PyMongo(app)
 db = mongo.db.passionfroid
 db2 = mongo.db.fs.files
 
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == "POST":
         recherche = request.form.get("recherche")
+        filtre = request.form.get("filtre")
+        print(filtre)
         if recherche:
             recherche = str.capitalize(recherche)
-            images = db.find({"tag": {"$regex": recherche}})
-            return render_template('index.html', images=images)
+            if filtre == 'Tag':
+                print("tag")
+                images = db.find({"tag": {"$regex": recherche}})
+                return render_template('index.html', images=images)
+            elif filtre == 'Categorie':
+                print("Cat")
+                images = db.find({"categorie": {"$regex": recherche}})
+                return render_template('index.html', images=images)
+            elif filtre == 'Nom':
+                print("nom")
+                images = db.find({"image_passionfroid_name": {"$regex": recherche}})
+                return render_template('index.html', images=images)
     else:
         images = db.find()
         return render_template('index.html', images=images)

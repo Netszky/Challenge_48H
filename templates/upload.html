@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
-    <link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='style/upload.css') }}">
+    <link href="{{ url_for('static', filename='style/upload.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 {% extends "layout/base.html" %}
@@ -25,7 +25,10 @@
         <div class="form-group">
             <label for="file">Catégorie(Ambiance ou Produit)</label>
             <div class="container_input">
-                <input type="text" name="categorie" class="form-control" id="file" aria-describedby="emailHelp" placeholder="">
+                <select name="categorie" class="form-control form-control-md">
+                    <option value="Produit">Produit</option>
+                    <option value="Ambiance">Ambiance</option>
+                </select>
             </div>
           </div>
         <div class="form-group">
@@ -41,52 +44,55 @@
             </div>
         <div class="form_box">
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="radio" id="exampleRadios1" value="Oui" checked>
-                <label class="form-check-label" for="exampleRadios1">
+                <input  class="form-check-input" type="radio" name="radio" id="exampleRadios1" value="Oui" checked>
+                <label class="form-check-label">
                   Oui
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="radio" id="exampleRadios2" value="Non">
-                <label class="form-check-label" for="exampleRadios2">
+                <label class="form-check-label">
                   Non
                 </label>
               </div>
         </div>
+        <div class="separate"></div>
         <div class="title">
                 <h2>Photo Contractuelle ?</h2>
             </div>
         <div class="form_box">
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="radio_contract" id="exampleRadios1" value="Oui" checked>
-                <label class="form-check-label" for="exampleRadios1">
+                <label class="form-check-label">
                   Oui
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="radio_contract" id="exampleRadios2" value="Non">
-                <label class="form-check-label" for="exampleRadios2">
+                <label class="form-check-label">
                   Non
                 </label>
               </div>
         </div>
+        <div class="separate"></div>
         <div class="title">
                 <h2>Format de la photo ?</h2>
         </div>
         <div class="form_box">
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="radio_format" id="exampleRadios1" value="Horizontal" checked>
-                <label class="form-check-label" for="exampleRadios1">
+                <label class="form-check-label">
                   Horizontal
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="radio_format" id="exampleRadios2" value="Vertical">
-                <label class="form-check-label" for="exampleRadios2">
+                <label class="form-check-label">
                   Vertical
                 </label>
               </div>
         </div>
+        <div class="separate"></div>
         <div class="form_button">
             <button type="submit" class="btn btn-primary">Confirmer</button>
         </div>
