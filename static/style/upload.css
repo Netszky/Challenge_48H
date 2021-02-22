@@ -1,0 +1,33 @@
+
+#file {
+    border: black 1px solid;
+    width: 30%;
+}
+.form-check {
+    text-align: center!important;
+}
+.form_box {
+    display: flex;
+    justify-content: space-around;
+}
+.title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+.form_button {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+.container_form {
+    display: block;
+    text-align: center;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.container_input {
+    display: flex!important;
+    justify-content: center!important;
+}
