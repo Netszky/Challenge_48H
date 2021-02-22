@@ -5,6 +5,20 @@
     <title>Title</title>
 </head>
 <body>
-
+<div class="container">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+               Modifier
+        </button>
+        <div class="button_container" style="display: flex; justify-content: center;">
+            <form action="{{ url_for('delete', id=detail._id) }}" method="post" role="form">
+                    <button class="btn btn-danger" type="submit" id="delete-btn">Supprimer</button>
+            </form>
+        </div>
+    <img src="/image/{{detail.image_passionfroid_name}}" width="200px" height="200px">
+    <p>{{detail.image_passionfroid_name}}</p>
+    <p>{{detail.categorie}}</p>
+    <p>{{detail.tag}}</p>
+    <p>{{detail.hasHuman}}</p>
+    <p>{{detail.Contractuelle}}</p>
 </body>
 </html>

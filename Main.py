@@ -34,16 +34,21 @@ def ajouter():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    if 'image_passionfroid' in request.files:
-        image_passionfroid = request.files['image_passionfroid']
+
+    if 'image_passionfroid[]' in request.files:
+        image_passionfroid = request.files.getlist('image_passionfroid[]')
+
         categorie = request.form['categorie']
         tag = request.form['tag']
+        tag = tag.split()
         contract = request.form.getlist('radio_contract')
         hasHuman = request.form.getlist('radio')
+        format = request.form.getlist('radio_format')
         for i in image_passionfroid:
             mongo.save_file(i.filename, i)
-            mongo.db.passionfroid.insert_one({'image_passionfroid_name': i.filename, 'categorie': categorie, 'tag': tag, 'hasHuman': hasHuman, 'Contractuelle': contract})
+            mongo.db.passionfroid.insert({'image_passionfroid_name': i.filename, 'categorie': categorie, 'tag': tag, 'hasHuman': hasHuman, 'Contractuelle': contract, 'format': format})
     return redirect(url_for('index'))
+
 
 @app.route('/image/<filename>')
 def image(filename):
@@ -64,6 +69,30 @@ def detail(id):
     detail = db.find_one({'_id': ObjectId(id)})
     return render_template('detail.html', detail=detail)
 
+@app.route('/update/<id>', methods=['POST'])
+def update(id):
+    image_passionfroid = request.files['image_passionfroid']
+    categorie = request.form.get('categorie')
+    tag = request.form.get('tag')
+    hasHuman = request.form.getlist('human')
+    contract = request.form.getlist('contract')
+
+    updated_image = db.find_one({'_id': ObjectId(id)})
+
+    updated_image["image_passionfroid_name"] = image_passionfroid
+    updated_image["categorie"] = categorie
+    updated_image["tag"] = tag
+    updated_image["hasHuman"] = hasHuman
+    updated_image["Contractuelle"] = contract
+
+    db.replace_one({'_id': ObjectId(id)}, updated_image)
+    return redirect(url_for('detail', id=id))
+
+
+@app.route('/delete/<id>', methods=['POST'])
+def delete(id):
+    db.delete_one({'_id': ObjectId(id)})
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
