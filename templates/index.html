@@ -15,9 +15,9 @@
     {% if countimages == 0 %}
                     Aucune Image trouvée
                 {% elif countimages == 1 %}
-                    {{ countimages }} Image trouvé
+                    {{ countimages }} Image trouvée
                 {% else %}
-                    {{ countimages }} Images trouvés
+                    {{ countimages }} Images trouvées
                 {% endif %}
 </h1>
 <section class="hero-section">
@@ -28,12 +28,18 @@
       <div class="card__content">
 
         <p class="card__category">{{img.categorie}}</p>
+
           {% for i in img.tag %}
             <p class="card__category tag">{{i}}</p>
           {% endfor %}
         {% if img.hasHuman[0] == 'Oui' %}
-          <p class="card__category">Photo Contractuelle</p>
+          <p class="card__category">Droit à l'image</p>
           {% elif img.hasHuman[0] == 'Non' %}
+            <p class="card__category">Pas de Droit</p>
+          {% endif %}
+        {% if img.Contractuelle[0] == 'Oui' %}
+          <p class="card__category">Contractuelle</p>
+          {% elif img.Contractuelle[0] == 'Non' %}
             <p class="card__category">Photo Non Contractuelle</p>
           {% endif %}
         <h3 class="card__heading">{{img.image_passionfroid_name}}</h3>

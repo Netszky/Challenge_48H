@@ -20,9 +20,7 @@ def index():
     if request.method == "POST":
         recherche = request.form.get("recherche")
         filtre = request.form.get("filtre")
-        print(filtre)
         if recherche:
-            recherche = str.capitalize(recherche)
             if filtre == 'Tag':
                 print("tag")
                 images = db.find({"tag": {"$regex": recherche}})
@@ -70,12 +68,14 @@ def image(filename):
 @app.route('/Catégorie/<categorie>', methods=['GET'])
 def Ambiance(categorie):
     images = db.find({'categorie': categorie})
-    return render_template('index.html', images=images)
+    countimages = images.count()
+    return render_template('index.html', images=images, countimages=countimages)
 
 @app.route('/Catégorie/<categorie>', methods=['GET'])
 def Produit(categorie):
     images = db.find({'categorie': categorie})
-    return render_template('index.html', images=images)
+    countimages = images.count()
+    return render_template('index.html', images=images, countimages=countimages)
 
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):
@@ -84,19 +84,21 @@ def detail(id):
 
 @app.route('/update/<id>', methods=['POST'])
 def update(id):
-    image_passionfroid = request.files['image_passionfroid']
+    #image_passionfroid = request.files['image_passionfroid']
     categorie = request.form.get('categorie')
     tag = request.form.get('tag')
-    hasHuman = request.form.getlist('human')
-    contract = request.form.getlist('contract')
+    hasHuman = request.form.getlist('radio')
+    contract = request.form.getlist('radio_contract')
+    format_image = request.form.getlist('radio_format')
+
 
     updated_image = db.find_one({'_id': ObjectId(id)})
-    mongo.save_file(image_passionfroid.filename, image_passionfroid)
-    updated_image["image_passionfroid_name"] = image_passionfroid
+    #updated_image["image_passionfroid_name"] = image_passionfroid
     updated_image["categorie"] = categorie
     updated_image["tag"] = tag
     updated_image["hasHuman"] = hasHuman
     updated_image["Contractuelle"] = contract
+    updated_image["format"] = format_image
 
     db.replace_one({'_id': ObjectId(id)}, updated_image)
     return redirect(url_for('detail', id=id))
@@ -106,6 +108,21 @@ def update(id):
 def delete(id):
     db.delete_one({'_id': ObjectId(id)})
     return redirect(url_for('index'))
+
+@app.route('/Human/<choix>', methods=['GET'])
+def Human(choix):
+    images = db.find({'hasHuman': choix})
+    print(choix)
+    countimages = images.count()
+    return render_template('index.html', images=images, countimages=countimages)
+
+@app.route('/Contract/<choix>', methods=['GET'])
+def Contract(choix):
+    images = db.find({'Contractuelle': choix})
+    print(choix)
+    countimages = images.count()
+    return render_template('index.html', images=images, countimages=countimages)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
