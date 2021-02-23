@@ -27,7 +27,7 @@ def index():
             if filtre == 'Tag':
                 a = recherche.split()
                 print("tag")
-
+                #Recherche 2 tag en même temps en splitant chaine de caractère
                 images = db.find({"$or": [{"tag": {"$regex": recherche[0]}}, {"tag": {"$regex": recherche[1]}}]})
                 return render_template('index.html', images=images)
             elif filtre == 'Categorie':
