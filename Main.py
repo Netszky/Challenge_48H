@@ -22,8 +22,11 @@ def index():
         filtre = request.form.get("filtre")
         if recherche:
             if filtre == 'Tag':
+                a = recherche.split()
                 print("tag")
-                images = db.find({"tag": {"$regex": recherche}})
+
+                #images = db.find({"tag": {"$regex": recherche[0], "$or": recherche[1]}})
+                images = db.find({"$or": [{"tag": {"$regex": recherche[0]}}, {"tag": {"$regex": recherche[1]}}]})
                 return render_template('index.html', images=images)
             elif filtre == 'Categorie':
                 print("Cat")
@@ -34,6 +37,10 @@ def index():
                 images = db.find({"image_passionfroid_name": {"$regex": recherche}})
                 countimages = images.count()
                 return render_template('index.html', images=images, countimages=countimages)
+        else:
+            images = db.find()
+            countimages = images.count()
+            return render_template('index.html', images=images, countimages=countimages)
     else:
         images = db.find()
         countimages = images.count()
