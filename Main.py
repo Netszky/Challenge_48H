@@ -18,6 +18,10 @@ db = mongo.db.passionfroid
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    db.create_index({"$**": "text"}, 1)
+    cursor = db.find({"$text": {"$search": 'Pl'}});
+    for i in cursor:
+        print(i)
     if request.method == "POST":
         recherche = request.form.get("recherche")
         filtre = request.form.get("filtre")
