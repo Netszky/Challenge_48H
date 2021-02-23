@@ -10,7 +10,7 @@ import pprint
 
 
 app = Flask(__name__)
-
+#Lien MongoAtlas
 app.config['MONGO_URI'] = 'mongodb+srv://root:root@cluster0.wqlut.mongodb.net/passionfroid?retryWrites=true&w=majority'
 
 mongo = PyMongo(app)
@@ -18,19 +18,16 @@ db = mongo.db.passionfroid
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    db.create_index({"$**": "text"}, 1)
-    cursor = db.find({"$text": {"$search": 'Pl'}});
-    for i in cursor:
-        print(i)
+#Index
     if request.method == "POST":
         recherche = request.form.get("recherche")
         filtre = request.form.get("filtre")
+        #Barre de recherche
         if recherche:
             if filtre == 'Tag':
                 a = recherche.split()
                 print("tag")
 
-                #images = db.find({"tag": {"$regex": recherche[0], "$or": recherche[1]}})
                 images = db.find({"$or": [{"tag": {"$regex": recherche[0]}}, {"tag": {"$regex": recherche[1]}}]})
                 return render_template('index.html', images=images)
             elif filtre == 'Categorie':
@@ -47,15 +44,18 @@ def index():
             countimages = images.count()
             return render_template('index.html', images=images, countimages=countimages)
     else:
+        #Requete non filtrée index
         images = db.find()
         countimages = images.count()
         return render_template('index.html', images=images, countimages=countimages)
 
 @app.route('/AjouterPhoto')
+#Formulaire Ajout
 def ajouter():
     return render_template('upload.html')
 
 @app.route('/upload', methods=['POST'])
+#Ajout photo dans base
 def upload():
 
     if 'image_passionfroid[]' in request.files:
@@ -74,27 +74,32 @@ def upload():
 
 
 @app.route('/image/<filename>')
+#Envoyer image
 def image(filename):
     return mongo.send_file(filename)
 
 @app.route('/Catégorie/<categorie>', methods=['GET'])
+#Filtre Catégorie = Ambiance
 def Ambiance(categorie):
     images = db.find({'categorie': categorie})
     countimages = images.count()
     return render_template('index.html', images=images, countimages=countimages)
 
 @app.route('/Catégorie/<categorie>', methods=['GET'])
+#Filtre Catégorie = Produit
 def Produit(categorie):
     images = db.find({'categorie': categorie})
     countimages = images.count()
     return render_template('index.html', images=images, countimages=countimages)
 
 @app.route('/detail/<id>', methods=['GET'])
+#Detail image quand cliquée
 def detail(id):
     detail = db.find_one({'_id': ObjectId(id)})
     return render_template('detail.html', detail=detail)
 
 @app.route('/update/<id>', methods=['POST'])
+#Mise a jour Image
 def update(id):
     #image_passionfroid = request.files['image_passionfroid']
     categorie = request.form.get('categorie')
@@ -117,11 +122,13 @@ def update(id):
 
 
 @app.route('/delete/<id>', methods=['POST'])
+#Suppression Image
 def delete(id):
     db.delete_one({'_id': ObjectId(id)})
     return redirect(url_for('index'))
 
 @app.route('/Human/<choix>', methods=['GET'])
+#Filtre onglet droit à l'image
 def Human(choix):
     images = db.find({'hasHuman': choix})
     print(choix)
@@ -129,6 +136,7 @@ def Human(choix):
     return render_template('index.html', images=images, countimages=countimages)
 
 @app.route('/Contract/<choix>', methods=['GET'])
+#filtre onglet Contractuelle
 def Contract(choix):
     images = db.find({'Contractuelle': choix})
     print(choix)
