@@ -1,2 +1,2 @@
-web: gunicorn Main:Main
+web: gunicorn Main:app
 heroku ps:scale web=1
