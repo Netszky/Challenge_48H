@@ -2,6 +2,7 @@ import os
 from sys import stderr
 
 from bson import ObjectId
+from dns import *
 from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 import pprint
@@ -9,11 +10,10 @@ import pprint
 
 app = Flask(__name__)
 
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/passionfroid'
+app.config['MONGO_URI'] = 'mongodb+srv://root:root@cluster0.wqlut.mongodb.net/passionfroid?retryWrites=true&w=majority'
 
 mongo = PyMongo(app)
 db = mongo.db.passionfroid
-db2 = mongo.db.fs.files
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
