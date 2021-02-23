@@ -34,10 +34,12 @@ def index():
             elif filtre == 'Nom':
                 print("nom")
                 images = db.find({"image_passionfroid_name": {"$regex": recherche}})
-                return render_template('index.html', images=images)
+                countimages = images.count()
+                return render_template('index.html', images=images, countimages=countimages)
     else:
         images = db.find()
-        return render_template('index.html', images=images)
+        countimages = images.count()
+        return render_template('index.html', images=images, countimages=countimages)
 
 @app.route('/AjouterPhoto')
 def ajouter():
@@ -89,7 +91,7 @@ def update(id):
     contract = request.form.getlist('contract')
 
     updated_image = db.find_one({'_id': ObjectId(id)})
-
+    mongo.save_file(image_passionfroid.filename, image_passionfroid)
     updated_image["image_passionfroid_name"] = image_passionfroid
     updated_image["categorie"] = categorie
     updated_image["tag"] = tag

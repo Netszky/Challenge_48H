@@ -10,6 +10,18 @@
 {% block content %}
 <body>
 <div class="container">
+
+    <div class="container">
+        <h1>{{detail.image_passionfroid_name}}</h1>
+        <div class="image_container">
+            <img src="/image/{{detail.image_passionfroid_name}}" width="100%" height="100%">
+        </div>
+
+        <p>{{detail.categorie}}</p>
+        <p>{{detail.tag}}</p>
+        <p>{{detail.hasHuman}}</p>
+        <p>{{detail.Contractuelle}}</p>
+    </div>
     <div class="button_container" style="display: flex; justify-content: center;">
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
                Modifier
@@ -20,13 +32,8 @@
             <button class="btn btn-danger" type="submit" id="delete-btn">Supprimer</button>
         </form>
     </div>
-    <div class="container">
-        <img src="/image/{{detail.image_passionfroid_name}}" width="200px" height="200px">
-        <p>{{detail.image_passionfroid_name}}</p>
-        <p>{{detail.categorie}}</p>
-        <p>{{detail.tag}}</p>
-        <p>{{detail.hasHuman}}</p>
-        <p>{{detail.Contractuelle}}</p>
+    <div class="button_container" style="display: flex; justify-content: center;">
+        <a class="download" href="/image/{{detail.image_passionfroid_name}}" download><button class="btn btn-primary" type="submit" id="delete-btn">Télécharger</a></button></a>
     </div>
 
 
@@ -37,13 +44,13 @@
 
           <!-- Modal Header -->
           <div class="modal-header">
-            <h4 class="modal-title">Mettre à jour le Champion</h4>
+            <h4 class="modal-title">Modifier la photo</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form action="{{ url_for('update', id=detail._id) }}" method="POST" role="form">
+            <form action="{{ url_for('update', id=detail._id) }}" method="POST" role="form" enctype="multipart/form-data">
               <div class="form-group">
                   <label class="form-text">Image :</label>
                   <input type="file" name="image_passionfroid" value="{{ detail.image_passionfroid_name }}">
